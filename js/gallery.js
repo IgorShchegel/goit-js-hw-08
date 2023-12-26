@@ -72,12 +72,12 @@ function createMarkup(arr) {
     .map(
       ({ preview, original, description }) => `
       <li class="gallery-item">
-         <a class="gallery-link" href=${original}>
+         <a class="gallery-link" href="${original}">
            <img
                class="gallery-image"
-               src=${preview}
-               data-source=${original}
-               alt=${description}
+               src="${preview}"
+               data-source="${original}"
+               alt="${description}"
             />
          </a>
        </li>
@@ -87,6 +87,12 @@ function createMarkup(arr) {
 }
 
 conteiner.addEventListener("click", galleryContainerClick);
+
+const closeModal = (event, instance) => {
+  if (event.key === "Escape") {
+    instance.close();
+  }
+};
 
 function galleryContainerClick(event) {
   event.preventDefault();
@@ -104,19 +110,17 @@ function galleryContainerClick(event) {
   `,
     {
       onShow: () => {
-        document.addEventListener("keydown", closeModal);
+        document.addEventListener("keydown", (event) =>
+          closeModal(event, instance)
+        );
       },
       onClose: () => {
-        document.removeEventListener("keydown", closeModal);
+        document.removeEventListener("keydown", (event) =>
+          closeModal(event, instance)
+        );
       },
     }
   );
-
-  const closeModal = (event) => {
-    if (event.key === "Escape") {
-      instance.close();
-    }
-  };
 
   instance.show();
 }
